@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TwittMap</title>
+    <link rel='stylesheet' href='../static/stylesheets/style.css' />
+  </head>
+  <body>
+
+    <h1>TwittMap</h1>
+
+    <p>Welcome to TwittMap</p>
+
+    <p>Please select your keyword:</p>
+
+    <form action="/">
+      <select name="keyword">
+        <option value="test1">test1</option>
+        <option value="test2">test2</option>
+      </select>
+      <input type="submit">
+    </form>
+
+    </br>
+
+    <div id="map"></div>
+
+    <script type="text/javascript" src="../static/javascripts/script.js"></script>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpa99J3luKSc4dG5r78NClNe0oQUGJMAs&callback=initMap">
+    </script>
+  </body>
+</html>
