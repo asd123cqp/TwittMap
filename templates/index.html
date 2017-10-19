@@ -30,13 +30,29 @@
     <div id="map"></div>
     <script>
 
-      function placeMarker(coord, map) {
-        var position = {lat: coord[1], lng: coord[0]};
-        console.log(position);
+      function placeMarker(tweet, map) {
+        var position = {lat: tweet.coord[1], lng: tweet.coord[0]};
+
         var marker = new google.maps.Marker({
           position: position,
           map: map,
+
         });
+
+        var content = tweet.nickname + '(' + tweet.username + '):<br>' +
+                      tweet.text + '<br>' + tweet.date;
+
+        var infowindow = new google.maps.InfoWindow();
+        google.maps.event.addListener(marker, 'click', (
+          function(marker, content, infowindow) {
+            return function() {
+              infowindow.setContent(content);
+              infowindow.open(map, marker);
+            };
+          })(marker, content, infowindow)
+        );
+
+        console.log(content);
       }
 
       function initMap() {
@@ -50,13 +66,9 @@
         tweets.forEach(function(e) {
           // console.log(e);
           if (e.coord !== undefined) {
-            placeMarker(e.coord, map);
+            placeMarker(e, map);
           }
         });
-
-        // map.addListener('click', function(e) {
-        //     placeMarker(e.latLng, map);
-        // });
       }
     </script>
 
