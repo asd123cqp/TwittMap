@@ -1,30 +1,41 @@
-import threading, tweepy, time
-from os import environ
-from elasticsearch import Elasticsearch
-from index import App
-from streamer import Streamer
+# -*- coding: utf-8 -*-
+import json
+from flask import Flask, render_template, request
+from searcher import es
 
-# keywords to stream
-KEYWORDS = ['apple', 'bar', 'cat', 'dog', 'eat', 'food']
+# helper function
+def get_tweets(kw):
+    if kw == 'all':
+        body = {"query": {"match_all": {}}}
+    else:
+        body = {"query": {"match": {'text': {'query': kw}}}}
+
+    # search tweets with es
+    data = es.search(index="tweet_index",
+                     body=body,
+                     size=10000)['hits']['hits']
+
+    # parse raw data & return
+    tweets = [t['_source'] for t in data]
+    return json.dumps(tweets)
+
+
+# init
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html',
+                           kw='all',
+                           tweets=get_tweets('all'))
+@app.route('/search/')
+def search():
+    kw = request.args.get('q')
+    return render_template('index.html',
+                           kw=kw,
+                           tweets=get_tweets(kw))
 
 # run the app.
 if __name__ == "__main__":
-    # load api key and token
-    auth = tweepy.OAuthHandler(environ['twitt_api_key'],
-                               environ['twitt_api_secret'])
-    auth.set_access_token(environ['twitt_token_key'],
-                          environ['twitt_token_secret'])
-    es = Elasticsearch([environ['es_host']])
-
-    # start worker threads
-    tweet_streamer, app = Streamer(auth, es, KEYWORDS), App(es)
-    tasks, threads = (app.run, tweet_streamer.start), []
-    for task in tasks:
-        t = threading.Thread(target=task)
-        t.daemon = True
-        threads.append(t)
-        print 'Starting', t
-        t.start()
-
-    while True:
-        time.sleep(10)
+    app.debug = True
+    app.run()

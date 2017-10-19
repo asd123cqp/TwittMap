@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
 import tweepy
+from os import environ
+from searcher import es
+
+# keywords to stream
+KEYWORDS = ['apple', 'bar', 'cat', 'dog', 'eat', 'food']
 
 def parse_tweet(tweet):
     return {'username': tweet['user']['name'],
@@ -9,26 +15,35 @@ def parse_tweet(tweet):
 
 class StreamListener(tweepy.StreamListener):
     """docstring for StreamListener"""
-    def __init__(self, es=None):
-        super(StreamListener, self).__init__()
-        self.es = es
 
     # save twitts to Elastic Search
     def on_status(self, status):
         # reject twitts without geotag
         if status._json['coordinates'] is None:
             return
-
-        self.es.index(index="tweet_index",
-                      doc_type="tweet",
-                      body=parse_tweet(status._json))
+        tweet = parse_tweet(status._json)
+        print tweet
+        es.index(index="tweet_index",
+                 doc_type="tweet",
+                 body=tweet)
 
 class Streamer:
     """docstring for Streamer"""
-    def __init__(self, auth=None, es=None, keywords=['foo']):
+    def __init__(self, auth=None, keywords=['foo']):
         self.keywords = keywords
-        self.streamer = tweepy.Stream(auth=auth, listener=StreamListener(es))
+        self.streamer = tweepy.Stream(auth=auth, listener=StreamListener())
 
-    def start(self):
+    def run(self):
         self.streamer.filter(None, self.keywords)
         self.streamer.userstream(None)
+
+if __name__ == '__main__':
+
+    auth = tweepy.OAuthHandler(environ['twitt_api_key'],
+                               environ['twitt_api_secret'])
+    auth.set_access_token(environ['twitt_token_key'],
+                          environ['twitt_token_secret'])
+
+    print(es.info())
+    streamer = Streamer(auth, KEYWORDS)
+    streamer.run()

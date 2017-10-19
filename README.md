@@ -17,4 +17,7 @@ Plase set up your environment variables before deploy:
 - "twitt_api_secret": Consumer Secret (API Secret)
 - "twitt_token_key": Access Token
 - "twitt_token_secret": Access Token Secret
+- "aws_key": AWS User Access key ID
+- "aws_secret": AWS User Access key Secret Token
+- "aws_region": AWS Elasticsearch Region
 - "es_host": Elasticsearch Host Address
