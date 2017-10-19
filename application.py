@@ -21,14 +21,14 @@ def get_tweets(kw):
 
 
 # init
-app = Flask(__name__)
+application = Flask(__name__)
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html',
                            kw='all',
                            tweets=get_tweets('all'))
-@app.route('/search/')
+@application.route('/search/')
 def search():
     kw = request.args.get('q')
     return render_template('index.html',
@@ -37,5 +37,5 @@ def search():
 
 # run the app.
 if __name__ == "__main__":
-    app.debug = True
-    app.run()
+    application.debug = True
+    application.run()
