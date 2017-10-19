@@ -3,7 +3,7 @@ import json
 from flask import Flask, render_template, request
 from searcher import es
 
-# helper function
+# helper functions
 def get_tweets(kw):
     if kw == 'all':
         body = {"query": {"match_all": {}}}
@@ -19,21 +19,21 @@ def get_tweets(kw):
     tweets = [t['_source'] for t in data]
     return json.dumps(tweets), len(tweets)
 
+def render_kw(kw):
+    tweets, num = get_tweets(kw)
+    return render_template('index.html', kw=kw,
+                           tweets=tweets, num=num)
 
 # init
 application = Flask(__name__)
 
 @application.route('/')
 def index():
-    tweets, num = get_tweets('all')
-    return render_template('index.html', kw='all',
-                           tweets=tweets, num=num)
+    return render_kw('all')
+
 @application.route('/search/')
 def search():
-    kw = request.args.get('q')
-    tweets, num = get_tweets(kw)
-    return render_template('index.html', kw=kw,
-                           tweets=tweets, num=num)
+    return render_kw(request.args.get('q'))
 
 # run the app.
 if __name__ == "__main__":

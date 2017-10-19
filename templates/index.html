@@ -36,12 +36,11 @@
         var marker = new google.maps.Marker({
           position: position,
           map: map,
-
         });
 
-        var content = '<b>' + tweet.nickname + '</b>' +
-                      ' (' + '<i>' + tweet.username + '</i>' + '):<br>' +
-                      tweet.text + '<br>' +
+        var content = '<b>' + tweet.username + '</b>' +
+                      ' ( @' + '<i>' + tweet.nickname + '</i>' + ' ):<br>' +
+                      '<hr>' + tweet.text + '<br>' +
                       '<font size="0.5em" color="grey">' +
                       tweet.date + '</font>';
 
@@ -54,24 +53,26 @@
             };
           })(marker, content, infowindow)
         );
+
+        return marker;
       }
 
       function initMap() {
         var center = {lat: 39.8097343, lng: -98.5556199};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 1,
+          zoom: 3,
           center: center
         });
 
+        // map tweets -> markers
         var tweets = {{ tweets|safe }};
-        tweets.forEach(function(t) {
-          if (t.coord !== undefined) {
-            placeMarker(t, map);
-          }
-        });
+        var markers = tweets.map(function(t) { return placeMarker(t, map) });
+
+        // add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
       }
     </script>
-
+    <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpa99J3luKSc4dG5r78NClNe0oQUGJMAs&callback=initMap">
     </script>

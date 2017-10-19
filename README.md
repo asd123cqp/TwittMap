@@ -9,9 +9,9 @@
 - [x] Use Twitter API to collect 10MB or so Twitts and process these offline. Allow user to search along few key words and display those twitts on the map. You also extract location tags when available from the Twitts. If no geotag available, you may infer the location from the keywords (i.e., any mention of places), if no mention of places, then feel free to choose a location randomly.
 - [x] Next you may want to look at streaming API to get the twitts in real-time and process and add to the whole process.
 
-## Environment Variable
+## Environment Variables
 
-Plase set up your environment variables before deploy:
+Please set up your environment variables before deploying:
 
 - "twitt_api_key": Consumer Key (API Key)
 - "twitt_api_secret": Consumer Secret (API Secret)
@@ -24,6 +24,6 @@ Plase set up your environment variables before deploy:
 
 ## TODO
 
-- [ ] Marker Clustering
+- [x] Marker Clustering
 
-- [ ] Use ElasticSearch’s (Links to an external site.)Links to an external site. geospatial feature that shows tweets that are within a certain distance from the point the user clicks on the map.
+- [ ] Use ElasticSearch’s geospatial feature that shows tweets that are within a certain distance from the point the user clicks on the map.
