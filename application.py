@@ -25,15 +25,15 @@ application = Flask(__name__)
 
 @application.route('/')
 def index():
-    return render_template('index.html',
-                           kw='all',
-                           tweets=get_tweets('all'))
+    tweets = get_tweets('all')
+    return render_template('index.html', kw='all',
+                           tweets=tweets, num=len(tweets))
 @application.route('/search/')
 def search():
     kw = request.args.get('q')
-    return render_template('index.html',
-                           kw=kw,
-                           tweets=get_tweets(kw))
+    tweets = get_tweets(kw)
+    return render_template('index.html', kw=kw,
+                           tweets=tweets, num=len(tweets))
 
 # run the app.
 if __name__ == "__main__":
