@@ -17,7 +17,7 @@ def get_tweets(kw):
 
     # parse raw data & return
     tweets = [t['_source'] for t in data]
-    return json.dumps(tweets)
+    return json.dumps(tweets), len(tweets)
 
 
 # init
@@ -25,15 +25,15 @@ application = Flask(__name__)
 
 @application.route('/')
 def index():
-    tweets = get_tweets('all')
+    tweets, num = get_tweets('all')
     return render_template('index.html', kw='all',
-                           tweets=tweets, num=len(tweets))
+                           tweets=tweets, num=num)
 @application.route('/search/')
 def search():
     kw = request.args.get('q')
-    tweets = get_tweets(kw)
+    tweets, num = get_tweets(kw)
     return render_template('index.html', kw=kw,
-                           tweets=tweets, num=len(tweets))
+                           tweets=tweets, num=num)
 
 # run the app.
 if __name__ == "__main__":
