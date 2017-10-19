@@ -36,4 +36,5 @@ class App:
         return json.dumps(tweets)
 
     def run(self):
+        self.app.debug = True
         self.app.run()

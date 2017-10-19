@@ -8,3 +8,13 @@
 - [x] Modify your webapp to be able to put a tag on a map using GoogleMaps API.
 - [x] Use Twitter API to collect 10MB or so Twitts and process these offline. Allow user to search along few key words and display those twitts on the map. You also extract location tags when available from the Twitts. If no geotag available, you may infer the location from the keywords (i.e., any mention of places), if no mention of places, then feel free to choose a location randomly.
 - [ ] Next you may want to look at streaming API to get the twitts in real-time and process and add to the whole process.
+
+## Environment Variable
+
+Plase set up your environment variables before deploy:
+
+- "twitt_api_key": Consumer Key (API Key)
+- "twitt_api_secret": Consumer Secret (API Secret)
+- "twitt_token_key": Access Token
+- "twitt_token_secret": Access Token Secret
+- "es_host": Elasticsearch Host Address
