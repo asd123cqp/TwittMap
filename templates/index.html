@@ -12,19 +12,53 @@
 
     <p>Please select your keyword:</p>
 
-    <form action="/">
-      <select name="keyword">
-        <option value="test1">test1</option>
-        <option value="test2">test2</option>
+    <form action="/search/">
+      <select name="q">
+        <option value="all"> </option>
+        <option value="foo">foo</option>
+        <option value="bar">bar</option>
+        <option value="cloud">cloud</option>
+        <option value="computing">computing</option>
+        <option value="big">big</option>
+        <option value="data">data</option>
       </select>
       <input type="submit">
     </form>
 
     </br>
-
+    <p>Showing tweets for keyword: {{ kw }}</p>
     <div id="map"></div>
+    <script>
 
-    <script type="text/javascript" src="../static/javascripts/script.js"></script>
+      function placeMarker(coord, map) {
+        var position = {lat: coord[1], lng: coord[0]};
+        console.log(position);
+        var marker = new google.maps.Marker({
+          position: position,
+          map: map,
+        });
+      }
+
+      function initMap() {
+        var center = {lat: 39.8097343, lng: -98.5556199};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 1,
+          center: center
+        });
+
+        var tweets = {{ tweets|safe }};
+        tweets.forEach(function(e) {
+          // console.log(e);
+          if (e.coord !== undefined) {
+            placeMarker(e.coord, map);
+          }
+        });
+
+        // map.addListener('click', function(e) {
+        //     placeMarker(e.latLng, map);
+        // });
+      }
+    </script>
 
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpa99J3luKSc4dG5r78NClNe0oQUGJMAs&callback=initMap">
