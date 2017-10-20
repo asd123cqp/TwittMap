@@ -11,7 +11,7 @@ def parse_tweet(tweet):
             'nickname': tweet['user']['screen_name'],
             'text': tweet['text'],
             'location': {'lat': tweet['coordinates']['coordinates'][1],
-                      '   lon': tweet['coordinates']['coordinates'][0]},
+                         'lon': tweet['coordinates']['coordinates'][0]},
             'date': tweet['created_at']}
 
 class StreamListener(tweepy.StreamListener):
