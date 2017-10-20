@@ -23,10 +23,8 @@ class StreamListener(tweepy.StreamListener):
         if status._json['coordinates'] is None:
             return
         tweet = parse_tweet(status._json)
-        print str(tweet)
-        es.index(index="tweets",
-                 doc_type="tweet",
-                 body=tweet)
+        print tweet, "\n---------------"
+        es.index(index="tweets", doc_type="tweet", body=tweet)
 
 class Streamer:
     """docstring for Streamer"""
@@ -40,11 +38,12 @@ class Streamer:
 
 if __name__ == '__main__':
 
-    auth = tweepy.OAuthHandler(environ['twitt_api_key'],
+    twitter_auth = tweepy.OAuthHandler(environ['twitt_api_key'],
                                environ['twitt_api_secret'])
-    auth.set_access_token(environ['twitt_token_key'],
+    twitter_auth.set_access_token(environ['twitt_token_key'],
                           environ['twitt_token_secret'])
 
     print es.info()
-    streamer = Streamer(auth, KEYWORDS)
+    print "---------------\nStreamming...\n---------------"
+    streamer = Streamer(twitter_auth, KEYWORDS)
     streamer.run()

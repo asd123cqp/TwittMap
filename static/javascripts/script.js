@@ -1,6 +1,7 @@
+// init vars
 var map, markers, markerCluster, kw, rad, center;
 var listener = null, circle = null;
-var zoomScale = {0: 3, 100: 6, 500: 5, 1000: 4};
+var zoomScale = {0: 3, 100: 7, 500: 5, 1000: 4};
 
 // init the map object
 function initMap() {
@@ -35,9 +36,12 @@ function renderMap() {
 
 // clear all markers on the map
 function clearMarkers() {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(null);
-  }
+  markers.forEach(function(m) {
+    m.setMap(null);
+  });
+  // for (var i = 0; i < markers.length; i++) {
+  //   markers[i].setMap(null);
+  // }
   markers = [];
   markerCluster.clearMarkers();
 }
@@ -104,16 +108,18 @@ function changeRadius(radius) {
   if (listener !== null) {
     google.maps.event.removeListener(listener);
   }
+
+  // reset circle
   if (rad !== 0) {
     listener = google.maps.event.addListener(map, 'click', handleClick);
+    makeCircle();
   }
+
+  renderMap();
 }
 
-// handle click event when geospatial search is enable
-function handleClick(event) {
-  center.lat = event.latLng.lat();
-  center.lng = event.latLng.lng();
-  clearCircle();
+// make a circle
+function makeCircle() {
   circle = new google.maps.Circle({
     center: center,
     radius: rad * 1000,
@@ -124,6 +130,14 @@ function handleClick(event) {
     fillColor: '#FF0000',
     fillOpacity: 0.35,
   });
+}
+
+// handle click event when geospatial search is enable
+function handleClick(event) {
+  center.lat = event.latLng.lat();
+  center.lng = event.latLng.lng();
+  clearCircle();
+  makeCircle();
   map.panTo(center);
   map.setZoom(zoomScale[rad]);
   renderMap();
