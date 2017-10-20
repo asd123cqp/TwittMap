@@ -128,3 +128,15 @@ function handleClick(event) {
   map.setZoom(zoomScale[rad]);
   renderMap();
 }
+
+// reset
+function reset() {
+  clearCircle();
+  center = { lat: 39.8097343, lng: -98.5556199 };
+  map.panTo(center);
+  map.setZoom(3);
+  var tmp = rad;
+  rad = 0;
+  renderMap();
+  rad = tmp;
+}

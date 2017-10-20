@@ -26,4 +26,4 @@ Please set up your environment variables before deploying:
 
 - [x] Marker Clustering
 
-- [ ] Use ElasticSearch’s geospatial feature that shows tweets that are within a certain distance from the point the user clicks on the map.
+- [x] Use ElasticSearch’s geospatial feature that shows tweets that are within a certain distance from the point the user clicks on the map.
