@@ -22,6 +22,15 @@
           {% endif %}
         {% endfor %}
       </select>
+<!--       <select name="d">
+        {% for opt in [0, 10, 100] %}
+          {% if opt == dist %}
+            <option value="{{ opt }}" selected="selected">{{ opt }}km</option>
+          {% else %}
+            <option value="{{ opt }}">{{ opt }}km</option>
+          {% endif %}
+        {% endfor %}
+      </select> -->
       <input type="submit">
     </form>
 
@@ -31,18 +40,18 @@
     <script>
 
       function placeMarker(tweet, map) {
-        var position = {lat: tweet.coord[1], lng: tweet.coord[0]};
+        var position = {lat: tweet.location.lat, lng: tweet.location.lon};
 
         var marker = new google.maps.Marker({
           position: position,
           map: map,
         });
 
-        var content = '<b>' + tweet.username + '</b>' +
-                      ' ( @' + '<i>' + tweet.nickname + '</i>' + ' ):<br>' +
-                      '<hr>' + tweet.text + '<br>' +
-                      '<font size="0.5em" color="grey">' +
-                      tweet.date + '</font>';
+        var content =
+          '<b>' + tweet.user_name + '</b>' +
+          ' ( ' + '<i>' + '@' + tweet.screen_name + '</i>' + ' ):<br>' +
+          '<hr>' + tweet.text + '<br>' + '<hr>' +
+          '<font size="0.5em" color="grey">' + tweet.date + '</font>';
 
         var infowindow = new google.maps.InfoWindow({ maxWidth: 200 });
         google.maps.event.addListener(marker, 'click', (

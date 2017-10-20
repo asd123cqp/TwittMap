@@ -11,7 +11,7 @@ def get_tweets(kw):
         body = {"query": {"match": {'text': {'query': kw}}}}
 
     # search tweets with es
-    data = es.search(index="tweet_index",
+    data = es.search(index="tweets",
                      body=body,
                      size=10000)['hits']['hits']
 

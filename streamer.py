@@ -10,7 +10,8 @@ def parse_tweet(tweet):
     return {'username': tweet['user']['name'],
             'nickname': tweet['user']['screen_name'],
             'text': tweet['text'],
-            'coord': tweet['coordinates']['coordinates'],
+            'location': {'lat': tweet['coordinates']['coordinates'][1],
+                      '   lon': tweet['coordinates']['coordinates'][0]},
             'date': tweet['created_at']}
 
 class StreamListener(tweepy.StreamListener):
@@ -22,8 +23,8 @@ class StreamListener(tweepy.StreamListener):
         if status._json['coordinates'] is None:
             return
         tweet = parse_tweet(status._json)
-        print tweet
-        es.index(index="tweet_index",
+        print str(tweet)
+        es.index(index="tweets",
                  doc_type="tweet",
                  body=tweet)
 
@@ -44,6 +45,6 @@ if __name__ == '__main__':
     auth.set_access_token(environ['twitt_token_key'],
                           environ['twitt_token_secret'])
 
-    print(es.info())
+    print es.info()
     streamer = Streamer(auth, KEYWORDS)
     streamer.run()
