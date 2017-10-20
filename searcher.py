@@ -18,3 +18,24 @@ es = Elasticsearch(hosts=[{'host': host, 'port': 443}],
                    use_ssl=True,
                    verify_certs=True,
                    connection_class=RequestsHttpConnection)
+
+
+
+if __name__ == '__main__':
+
+    # define structure
+    request_body = {
+        'mappings': {
+            'tweet': {
+                'properties': {
+                    'user_name': {'type': 'string'},
+                    'screen_name': {'type': 'string'},
+                    'text': {'type': 'string'},
+                    'location': {'type': 'geo_point'},
+                    'date': {'type': 'string'}
+                }
+            }
+        }
+    }
+
+    es.indices.create(index='tweets', body=request_body)

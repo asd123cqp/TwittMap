@@ -7,8 +7,8 @@ from searcher import es
 KEYWORDS = ['apple', 'bar', 'cat', 'dog', 'eat', 'food']
 
 def parse_tweet(tweet):
-    return {'username': tweet['user']['name'],
-            'nickname': tweet['user']['screen_name'],
+    return {'user_name': tweet['user']['name'],
+            'screen_name': tweet['user']['screen_name'],
             'text': tweet['text'],
             'location': {'lat': tweet['coordinates']['coordinates'][1],
                          'lon': tweet['coordinates']['coordinates'][0]},

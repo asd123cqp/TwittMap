@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TwittMap</title>
+    <link rel='stylesheet' href='static/stylesheets/style.css' />
+  </head>
+  <body>
+
+    <h1>TwittMap</h1>
+
+    <button type="button" onclick="initMap()">Reset</button>
+
+    <form id="params">
+      <p>Keyword:</p>
+      <select name="kw" onchange="changeKeyword(this.value)">
+        <option value="all">all</option>
+        <option value="apple">apple</option>
+        <option value="bar">bar</option>
+        <option value="cat">cat</option>
+        <option value="dog">dog</option>
+        <option value="eat">eat</option>
+        <option value="food">food</option>
+      </select>
+
+      <p>Geospatial search radius:</p>
+      <select name="rad" onchange="changeRadius(this.value)">
+        <option value="0">Disable</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+      </select>
+    </form>
+    </br>
+    <p><span id="resultNum"></span> results</p>
+    <div id="map"></div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="static/javascripts/script.js"></script>
+    <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpa99J3luKSc4dG5r78NClNe0oQUGJMAs&callback=initMap">
+    </script>
+  </body>
+</html>
