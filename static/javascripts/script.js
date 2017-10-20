@@ -20,7 +20,7 @@ function initMap() {
 function renderMap() {
   clearMarkers();
   var query = '/search/?kw=' + kw;
-  if (rad !== 0) {
+  if (circle !== null) {
     query += '&rad=' + rad + '&loc=' + center.lat + ',' + center.lng;
   }
   axios.get(query)
@@ -131,12 +131,8 @@ function handleClick(event) {
 
 // reset
 function reset() {
-  clearCircle();
-  center = { lat: 39.8097343, lng: -98.5556199 };
-  map.panTo(center);
-  map.setZoom(3);
-  var tmp = rad;
-  rad = 0;
-  renderMap();
-  rad = tmp;
+  listener = null, circle = null;
+  document.getElementById('kwDropdown').options.selectedIndex = 0;
+  document.getElementById('radDropdown').options.selectedIndex = 0;
+  initMap();
 }
