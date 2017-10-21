@@ -2,6 +2,8 @@
 
 [Link](http://twittmap-env.etjvjrbft2.us-west-1.elasticbeanstalk.com/)
 
+TwittMap is Assignment 1 for COMS 6998-Cloud Computing and Big Data. We use Tweepy for streaming the real-time tweet, store them into AWS ElasticSearch. The back-end server is Flask on AWS Elastic Beanstalk.
+
 ## How to get started?
 
 - [x] Develop a web app with something simple and deploy that using Elastic Bean Stalk.
@@ -22,8 +24,8 @@ Please set up your environment variables before deploying:
 - "aws_region": AWS Elasticsearch Region
 - "es_host": Elasticsearch Host Address
 
-## TODO
-
-- [x] Marker Clustering
-
-- [x] Use ElasticSearch’s geospatial feature that shows tweets that are within a certain distance from the point the user clicks on the map.
+## Architecture
+- streamer.py Using Tweepy to stream real-time tweet into Elastic Search
+- application.py The main server program using Flask to search tweets in Elastic Search
+- static/index.html The homepage html file of this project
+- static/javascript/script.js Javascript file to manipulate with Google Map api
