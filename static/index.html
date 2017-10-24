@@ -6,32 +6,35 @@
   </head>
   <body>
 
-    <h1>TwittMap</h1>
+    <div id="control-panel">
+      <form id="params">
+        <p>Keyword:</p>
+        <select id="kwDropdown" name="kw" onchange="changeKeyword(this.value)">
+          <option value="all">all</option>
+          <option value="apple">apple</option>
+          <option value="bar">bar</option>
+          <option value="cat">cat</option>
+          <option value="dog">dog</option>
+          <option value="eat">eat</option>
+          <option value="food">food</option>
+        </select>
 
-    <button type="button" onclick="reset()">Reset</button>
+        <p>Geospatial search radius:</p>
+        <select id="radDropdown" name="rad" onchange="changeRadius(this.value)">
+          <option value="0">Disable</option>
+          <option value="100">100km</option>
+          <option value="500">500km</option>
+          <option value="1000">1000km</option>
+        </select>
+      </form>
 
-    <form id="params">
-      <p>Keyword:</p>
-      <select id="kwDropdown" name="kw" onchange="changeKeyword(this.value)">
-        <option value="all">all</option>
-        <option value="apple">apple</option>
-        <option value="bar">bar</option>
-        <option value="cat">cat</option>
-        <option value="dog">dog</option>
-        <option value="eat">eat</option>
-        <option value="food">food</option>
-      </select>
+      <p><span id="resultNum"></span> results</p>
 
-      <p>Geospatial search radius:</p>
-      <select id="radDropdown" name="rad" onchange="changeRadius(this.value)">
-        <option value="0">Disable</option>
-        <option value="100">100</option>
-        <option value="500">500</option>
-        <option value="1000">1000</option>
-      </select>
-    </form>
-    </br>
-    <p><span id="resultNum"></span> results</p>
+      <button type="button"
+              style="margin-bottom: 12px"
+              onclick="reset()">Reset</button>
+    </div>
+
     <div id="map"></div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="static/javascripts/script.js"></script>
