@@ -4,6 +4,8 @@
 
 TwittMap is Assignment 1 for COMS 6998-Cloud Computing and Big Data. We use Tweepy for streaming the real-time tweet, store them into AWS ElasticSearch. The back-end server is Flask on AWS Elastic Beanstalk.
 
+![demo](static/images/demo-v1.2.jpg)
+
 ## How to get started?
 
 - [x] Develop a web app with something simple and deploy that using Elastic Bean Stalk.
