@@ -1,6 +1,6 @@
 # TwittMap
 
-[Link](http://twittmap-env.etjvjrbft2.us-west-1.elasticbeanstalk.com/)
+[Link](https://twittmap.cqp.cloud/)
 
 TwittMap is Assignment 1 for COMS 6998-Cloud Computing and Big Data. We use Tweepy for streaming the real-time tweet, store them into AWS ElasticSearch. The back-end server is Flask on AWS Elastic Beanstalk.
 
