@@ -20,17 +20,13 @@ function initMap() {
 // retrive tweets and render markers/marker cluster
 function renderMap() {
   clearMarkers();
-  var query = 'search/?kw=' + kw;
-  if (circle !== null) {
-    query += '&rad=' + rad + '&loc=' + center.lat + ',' + center.lng;
-  }
-  fetch(query)
+  fetch(composeQuery())
     .then(function (res) {
       return res.json();
     })
     .then(function (data) {
       createMarkers(data);
-      document.getElementById('resultNum').textContent = data.length;
+      document.getElementById('resultNum').textContent = data.hits.total;
     })
     .catch(function (error) {
       console.log(error);
@@ -42,19 +38,16 @@ function clearMarkers() {
   markers.forEach(function(m) {
     m.setMap(null);
   });
-  // for (var i = 0; i < markers.length; i++) {
-  //   markers[i].setMap(null);
-  // }
   markers = [];
   markerCluster.clearMarkers();
 }
 
 
 // given an array of tweets, create markers and marker cluster
-function createMarkers(tweets) {
+function createMarkers(data) {
 
   // map tweets -> markers
-  markers = tweets.map(function(t) { return placeMarker(t) });
+  markers = data.hits.hits.map(function(t) { return placeMarker(t._source) });
 
   // add a marker clusterer to manage the markers.
   markerCluster.addMarkers(markers);
@@ -152,4 +145,23 @@ function reset() {
   document.getElementById('kwDropdown').options.selectedIndex = 0;
   document.getElementById('radDropdown').options.selectedIndex = 0;
   initMap();
+}
+
+// compose a query string
+function composeQuery() {
+  return 'https://search-twittes-3cahy6nr4hurhgbvwb34rqnc24.us-west-1.es.amazonaws.com/tweets/_search?source=' + JSON.stringify({
+    size: 10000,
+    query: {
+      bool: {
+        must: kw == 'all' ? {'match_all': {}} :
+                            {'match': {'text': {'query': kw}}},
+        filter: circle === null ? null : {
+          geo_distance: {
+            distance: rad + 'km',
+            location: center.lat + ',' + center.lng
+          }
+        }
+      }
+    }
+  });
 }
