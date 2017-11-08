@@ -20,14 +20,17 @@ function initMap() {
 // retrive tweets and render markers/marker cluster
 function renderMap() {
   clearMarkers();
-  var query = '/search/?kw=' + kw;
+  var query = 'search/?kw=' + kw;
   if (circle !== null) {
     query += '&rad=' + rad + '&loc=' + center.lat + ',' + center.lng;
   }
-  axios.get(query)
-    .then(function (response) {
-      createMarkers(response.data);
-      document.getElementById('resultNum').textContent = response.data.length;
+  fetch(query)
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      createMarkers(data);
+      document.getElementById('resultNum').textContent = data.length;
     })
     .catch(function (error) {
       console.log(error);
